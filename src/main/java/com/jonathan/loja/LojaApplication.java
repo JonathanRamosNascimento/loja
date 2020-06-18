@@ -13,6 +13,7 @@ import com.jonathan.loja.domain.Cidade;
 import com.jonathan.loja.domain.Cliente;
 import com.jonathan.loja.domain.Endereco;
 import com.jonathan.loja.domain.Estado;
+import com.jonathan.loja.domain.ItemPedido;
 import com.jonathan.loja.domain.Pagamento;
 import com.jonathan.loja.domain.PagamentoComBoleto;
 import com.jonathan.loja.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.jonathan.loja.repositories.CidadeRepository;
 import com.jonathan.loja.repositories.ClienteRepository;
 import com.jonathan.loja.repositories.EnderecoRepository;
 import com.jonathan.loja.repositories.EstadoRepository;
+import com.jonathan.loja.repositories.ItemPedidoRepository;
 import com.jonathan.loja.repositories.PagamentoRepository;
 import com.jonathan.loja.repositories.PedidoRepository;
 import com.jonathan.loja.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class LojaApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LojaApplication.class, args);
@@ -120,6 +125,19 @@ public class LojaApplication implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
