@@ -17,7 +17,7 @@ import com.jonathan.loja.domain.enums.EstadoPagamento;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	private Integer id;
 	private Integer estado;
@@ -27,15 +27,15 @@ public abstract class Pagamento implements Serializable {
 	@JoinColumn(name = "pedido_id")
 	@MapsId
 	private Pedido pedido;
-	
+
 	public Pagamento() {
-		
+
 	}
 
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado.getCod();
+		this.estado = (estado == null) ? null : estado.getCod();
 		this.pedido = pedido;
 	}
 
